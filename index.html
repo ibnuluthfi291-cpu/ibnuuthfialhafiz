@@ -1,139 +1,43 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perpustakaan Digital</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-      background-color: #f4f6f8;
-      color: #333;
-    }
-
-    header {
-      background-color: #1e3a8a;
-      color: white;
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    header h1 {
-      font-size: 24px;
-    }
-
-    nav a {
-      color: white;
-      margin-left: 20px;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    .hero {
-      background: linear-gradient(to right, #1e3a8a, #2563eb);
-      color: white;
-      padding: 80px 40px;
-      text-align: center;
-    }
-
-    .hero h2 {
-      font-size: 36px;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      max-width: 700px;
-      margin: auto;
-    }
-
-    .content {
-      padding: 50px 40px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
-    }
-
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
-
-    .card h3 {
-      margin-bottom: 10px;
-      color: #1e3a8a;
-    }
-
-    footer {
-      background-color: #1e3a8a;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 40px;
-    }
-
-    @media (max-width: 600px) {
-      header {
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Profil & CV - ibnu Luthfi Al Hafiz</title>
 </head>
 <body>
+    <h1>Curriculum Vitae</h1>
+    
+    <img src="Pictures/foto profil .jpeg" alt="Foto Profil" width="150" style="border: 1px solid #000;">
+    
+    <h3>Data Pribadi</h3>
+    <ul>
+        <li><strong>Nama:</strong> Ibnu Luthfi Al Hafiz </li>
+        <li><strong>NIM:</strong> 230709022 </li>
+        <li><strong>Program Studi:</strong> Perpustakaan dan Sains Informasi </li>
+    </ul>
 
-  <header>
-    <h1>📚 Perpustakaan Digital</h1>
-    <nav>
-      <a href="#">Beranda</a>
-      <a href="#">Koleksi</a>
-      <a href="#">Layanan</a>
-      <a href="#">Tentang</a>
-    </nav>
-  </header>
-
-  <section class="hero">
-    <h2>Selamat Datang di Perpustakaan Digital</h2>
-    <p>
-      Sumber pengetahuan terpercaya dengan koleksi buku, jurnal, dan referensi
-      yang dapat diakses kapan saja dan di mana saja.
+    <h3>Media Sosial</h3>
+    <p>Hubungi saya melalui: 
+        <a href="https://m.facebook.com/" target="_blank">facebook ya</a>
     </p>
-  </section>
 
-  <section class="content">
-    <div class="card">
-      <h3>📖 Koleksi Buku</h3>
-      <p>Ribuan buku fisik dan digital dari berbagai bidang ilmu.</p>
+    <hr>
+
+    <h3>Koleksi Multimedia</h3>
+    
+    <div style="margin-bottom: 20px;">
+        <p><strong>Dengarkan Audio:</strong></p>
+        <audio controls>
+            <source src="Music/audio ibnu.mpeg" type="audio/mpeg">
+            Browser Anda tidak mendukung elemen audio.
+        </audio>
     </div>
 
-    <div class="card">
-      <h3>💻 Akses Online</h3>
-      <p>Baca dan unduh koleksi digital dengan mudah melalui website.</p>
-    </div>
-
-    <div class="card">
-      <h3>🕒 Jam Layanan</h3>
-      <p>Senin – Jumat<br>08.00 – 16.00 WIB</p>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2026 Perpustakaan Digital | Dibuat dengan ❤️</p>
-  </footer>
-
+    <iframe width="420" height="315"
+src="https://youtu.be/01QD3vfP3bU?si=UcV5EXv06kLHBeUu">
+</iframe>
+    
+    <hr>
+    <a href="index.html">Kembali ke Beranda</a>
 </body>
 </html>
