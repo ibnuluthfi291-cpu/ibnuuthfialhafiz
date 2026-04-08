@@ -32,7 +32,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.3); /* Garis bawah emas */
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -88,7 +88,7 @@ nav {
 
 .container {
     padding: 40px;
-    max-width: 1000px; /* Diperlebar sedikit agar muat 3 gambar jejer */
+    max-width: 1000px;
     margin: 40px auto;
     background: rgba(15, 23, 42, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -121,7 +121,7 @@ h1, h2 {
 }
 
 /* =========================================
-   STYLE BARU: GALERI KEGIATAN LITERASI
+   STYLE GALERI (UNTUK BUKU & KEGIATAN)
    ========================================= */
 .gallery-grid {
     display: grid;
@@ -137,6 +137,10 @@ h1, h2 {
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.05);
     transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .gallery-card:hover {
@@ -166,6 +170,24 @@ h1, h2 {
     font-weight: 500;
 }
 
+/* Tombol PDF khusus untuk Katalog */
+.btn-pdf {
+    margin-top: 15px;
+    padding: 10px 15px;
+    width: 100%;
+    background-color: transparent;
+    color: #ffd700;
+    border: 1px solid #ffd700;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-pdf:hover {
+    background-color: #ffd700;
+    color: #0f172a;
+}
 /* ----------------------------------------- */
 
 footer {
@@ -218,7 +240,7 @@ form input:focus {
     border-color: #ffd700;
 }
 
-form button {
+form button[type="submit"] {
     margin-top: 25px;
     padding: 12px;
     width: 100%;
@@ -232,7 +254,7 @@ form button {
     transition: 0.3s;
 }
 
-form button:hover {
+form button[type="submit"]:hover {
     background-color: #ffea00;
     transform: scale(0.98);
 }
@@ -244,7 +266,6 @@ form button:hover {
     align-items: center;
 }
 
-/* ABOUT US STYLE */
 #about p {
     text-align: justify;
     line-height: 1.8;
@@ -264,7 +285,7 @@ form button:hover {
     line-height: 1.6;
 }
 
-/* KATALOG BUKU */
+/* KATALOG PENCARIAN */
 #search {
     width: 100%;
     max-width: 500px;
@@ -280,25 +301,6 @@ form button:hover {
 
 #search:focus {
     border-color: #ffd700;
-}
-
-#bookList {
-    list-style: none;
-    padding: 0;
-}
-
-#bookList li {
-    background: rgba(30, 41, 59, 0.5);
-    padding: 15px 20px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border-left: 4px solid #ffd700;
-    transition: 0.3s;
-}
-
-#bookList li:hover {
-    background: rgba(30, 41, 59, 0.8);
-    transform: translateX(5px);
 }
 
 /* RESPONSIVE */
@@ -319,7 +321,6 @@ function showMenu(menu){
     const target = document.getElementById(menu);
     if(target) target.classList.add('active');
 
-    // Mengubah warna menu yang sedang aktif
     document.querySelectorAll('.nav-left a').forEach(link => link.classList.remove('active'));
     let activeNav = document.getElementById('nav-' + menu);
     if(activeNav) activeNav.classList.add('active');
@@ -342,15 +343,16 @@ function loginUser(event){
     }
 }
 
+// Fungsi Pencarian yang sudah diperbarui untuk Kartu Buku
 function searchBook(){
     let input = document.getElementById("search").value.toLowerCase();
-    let items = document.querySelectorAll("#bookList li");
+    let cards = document.querySelectorAll(".book-item");
 
-    items.forEach(item=>{
-        if(item.textContent.toLowerCase().includes(input)){
-            item.style.display="";
+    cards.forEach(card => {
+        if(card.textContent.toLowerCase().includes(input)){
+            card.style.display = "";
         } else {
-            item.style.display="none";
+            card.style.display = "none";
         }
     });
 }
@@ -384,13 +386,32 @@ function searchBook(){
 
     <div id="katalog" class="section">
         <h2><i class="fas fa-list"></i> Daftar Buku</h2>
-        <input type="text" id="search" placeholder="&#xf002; Cari judul buku..." style="font-family: Arial, 'Font Awesome 6 Free'; font-weight: 900;" onkeyup="searchBook()">
+        <input type="text" id="search" placeholder="&#xf002; Cari judul buku atau kategori..." style="font-family: 'Outfit', 'Font Awesome 6 Free'; font-weight: 900;" onkeyup="searchBook()">
         
-        <ul id="bookList">
-            <li>pemrograman web </li>
-            <li>dasar dasar pemrograman web</li>
-            <li>HTML, CSS dan Javascript</li>
-        </ul>
+        <div class="gallery-grid">
+            
+            <div class="gallery-card book-item">
+                <i class="fas fa-file-pdf" style="font-size: 4rem; color: #ef4444; margin-bottom: 15px;"></i>
+                <h3>Dasar Pemrograman HTML</h3>
+                <p class="gallery-category"><i class="fas fa-code"></i> Web Development</p>
+                <button class="btn-pdf" onclick="window.open('html.pdf', '_blank')"><i class="fas fa-book-open"></i> Baca PDF</button>
+            </div>
+
+            <div class="gallery-card book-item">
+                <i class="fas fa-file-pdf" style="font-size: 4rem; color: #ef4444; margin-bottom: 15px;"></i>
+                <h3>Pemrograman Web</h3>
+                <p class="gallery-category"><i class="fas fa-laptop-code"></i> Ilmu Komputer</p>
+                <button class="btn-pdf" onclick="window.open('pemrograman-web.pdf', '_blank')"><i class="fas fa-book-open"></i> Baca PDF</button>
+            </div>
+
+            <div class="gallery-card book-item">
+                <i class="fas fa-file-pdf" style="font-size: 4rem; color: #ef4444; margin-bottom: 15px;"></i>
+                <h3>Pengantar Pemrograman Web dengan PHP dan HTML</h3>
+                <p class="gallery-category"><i class="fab fa-php"></i> Back-End & Front-End</p>
+                <button class="btn-pdf" onclick="window.open('pengantar pemrograman web dengan PHP dan HTML.pdf', '_blank')"><i class="fas fa-book-open"></i> Baca PDF</button>
+            </div>
+
+        </div>
     </div>
 
     <div id="kegiatan" class="section">
@@ -398,7 +419,6 @@ function searchBook(){
         <p style="text-align: center; margin-bottom: 30px; color: #cbd5e1;">Berbagai aktivitas inspiratif yang kami jalankan untuk membangun budaya literasi di OXSLIB SPACE.</p>
         
         <div class="gallery-grid">
-            
             <div class="gallery-card">
                 <img src="Workshop menulis kreatif.jpeg" alt="Workshop Menulis Kreatif" onerror="this.src='https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=400'">
                 <h3>Workshop Menulis Kreatif</h3>
@@ -416,20 +436,15 @@ function searchBook(){
                 <h3>Literasi + Teknologi (AI)</h3>
                 <p class="gallery-category"><i class="fas fa-robot"></i> Edukasi Masa Depan</p>
             </div>
-
         </div>
     </div>
 
     <div id="about" class="section">
         <h2><i class="fas fa-building"></i> About Us</h2>
-
         <p><strong>OXSLIB SPACE</strong> hadir sebagai ruang literasi digital yang menghubungkan pengetahuan dengan teknologi dalam satu pengalaman yang sederhana dan menyenangkan. Kami percaya bahwa membaca bukan lagi sekadar aktivitas, tetapi sebuah perjalanan untuk membuka wawasan, ide, dan masa depan.</p>
-
         <p>Dengan pendekatan yang modern dan inklusif, kami membangun perpustakaan yang dekat dengan penggunanya—tempat di mana siapa saja bisa belajar, berkembang, dan menemukan inspirasi tanpa batas.</p>
-
         <h3><i class="fas fa-eye"></i> Visi</h3>
         <p>Menjadi ruang literasi digital yang inovatif dan inklusif, yang menginspirasi generasi untuk terus belajar dan berkembang di era teknologi.</p>
-
         <h3><i class="fas fa-bullseye"></i> Misi</h3>
         <ul>
             <li>Menyediakan akses informasi yang mudah, cepat, dan relevan bagi semua pengguna.</li>
@@ -442,7 +457,6 @@ function searchBook(){
 
     <div id="login" class="section">
         <h2><i class="fas fa-fingerprint"></i> Form Login Anggota</h2>
-
         <form onsubmit="loginUser(event)">
             <label><i class="fas fa-user"></i> Username</label>
             <input type="text" id="username" placeholder="Masukkan username" required>
