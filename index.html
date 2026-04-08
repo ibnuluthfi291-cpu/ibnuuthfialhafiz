@@ -1,119 +1,161 @@
-// --- FUNGSI PINDAH MENU ---
-function showMenu(menuId, clickedElement) {
-    document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active');
-    });
-    const selectedSection = document.getElementById(menuId);
-    if (selectedSection) selectedSection.classList.add('active');
+[14.12, 8/4/2026] Muhammad Taufik Taufik Riski: <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perpustakaan Digital | Muhammad Taufik Riski</title>
     
-    if(clickedElement) {
-        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-        clickedElement.classList.add('active');
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // Muat ulasan otomatis jika menu ulasan diklik
-    if(menuId === 'ulasan') {
-        muatUlasan();
-    }
-}
-
-// --- FUNGSI PENCARIAN BUKU ---
-function searchBooks() {
-    let input = document.getElementById('searchInput').value.toLowerCase();
-    let li = document.getElementById('bookList').getElementsByTagName('li');
-    for (let i = 0; i < li.length; i++) {
-        let textValue = li[i].textContent || li[i].innerText;
-        li[i].style.display = textValue.toLowerCase().indexOf(input) > -1 ? "" : "none";
-    }
-}
-
-// --- FUNGSI POPUP GAMBAR ---
-function openPopup(imgElement) {
-    const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); display:flex; justify-content:center; align-items:center; z-index:1000; cursor:pointer;';
-    const img = document.createElement('img');
-    img.src = imgElement.src;
-    img.style.cssText = 'max-width:90%; max-height:90%; border-radius:10px; box-shadow:0 5px 25px rgba(0,0,0,0.5);';
-    overlay.appendChild(img);
-    document.body.appendChild(overlay);
-    overlay.onclick = () => document.body.removeChild(overlay);
-}
-
-// --- FUNGSI MENGAMBIL ULASAN DARI DATABASE ---
-function muatUlasan() {
-    fetch('api_ulasan.php')
-    .then(response => {
-        if (!response.ok) throw new Error("Gagal memuat api_ulasan.php");
-        return response.json();
-    })
-    .then(data => {
-        const daftar = document.getElementById('daftarUlasan');
-        daftar.innerHTML = ''; // Kosongkan dulu
+    <link rel="stylesheet" href="style.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="overlay">
         
-        data.forEach(ulasan => {
-            let bintang = "⭐".repeat(ulasan.rating);
-            let balasanHTML = '';
-            
-            if(ulasan.balasan_admin !== null && ulasan.balasan_admin !== "") {
-                balasanHTML = `
-                <div class="admin-reply">
-                    <span>Admin hafiz Library</span>
-                    ${ulasan.balasan_admin}
-                </div>`;
-            }
+        <nav id="main-nav" style="display: none;">
+            <div class="nav-left">
+                <a id="nav-beranda" onclick="showMenu('beranda')"><i class="fas fa-home"></i> Beranda</a> 
+                <a id="nav-about" oncl…
+[14.14, 8/4/2026] Muhammad Taufik Taufik Riski: /* =========================================
+   PERPUSTAKAAN DIGITAL - STYLE & DESAIN UTAMA
+   Theme: Premium Dark Glassmorphism
+   ========================================= */
 
-            daftar.innerHTML += `
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="review-name">${ulasan.nama}</span>
-                        <span class="review-stars">${bintang}</span>
-                    </div>
-                    <p class="review-text">${ulasan.teks}</p>
-                    ${balasanHTML}
-                </div>
-            `;
-        });
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        document.getElementById('daftarUlasan').innerHTML = "<p style='text-align:center; color:red;'>Belum ada ulasan atau gagal terhubung ke database.</p>";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap');
+
+/* --- RESET & DASAR --- */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Outfit', sans-serif; 
+}
+
+body {
+    /* Latar belakang perpustakaan modern dengan nuansa gelap */
+    background: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
+    background-size: cover;
+    color: #e2e8f0;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Overlay gelap agar teks kontras dan…
+[14.16, 8/4/2026] Muhammad Taufik Taufik Riski: window.onload = function () {
+    if (!localStorage.getItem("users")) {
+        const defaultAdmin = [{nama: "Taufik Riski", user: "230709048", pass: "admin123"}];
+        localStorage.setItem("users", JSON.stringify(defaultAdmin));
+    }
+    checkLoginStatus();
+};
+
+function checkLoginStatus() {
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+    const nav = document.getElementById("main-nav");
+    if (isLoggedIn === "true") {
+        nav.style.display = "flex";
+        showMenu("beranda");
+    } else {
+        nav.style.display = "none";
+        showMenu("login");
+    }
+}
+
+function showMenu(menuId) {
+    const loggedIn = sessionStorage.getItem("isLoggedIn");
+    if (!loggedIn && menuId !== "login" && menuId !== "register") {
+        alert("Silakan login terlebih dahulu.");
+        return;
+    }
+    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById(menuId).classList.add('active');
+    if (menuId === "admin-panel") renderUserTable();
+}
+
+function registerUser(event) {
+    event.preventDefault();
+    const nama = document.getElementById("newNama").value;
+    const user = document.getElementById("newUser").value;
+    const pass = document.getElementById("newPass").value;
+    let users = JSON.parse(localStorage.getItem("users"));
+
+    if (users.find(u => u.user === user)) {
+        document.getElementById("register-msg").innerText = "NIM sudah terdaftar!";
+        return;
+    }
+    users.push({ nama, user, pass });
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Daftar Berhasil!");
+    showMenu("login");
+}
+
+function validateLogin(event) {
+    event.preventDefault();
+    const userIn = document.getElementById("username").value;
+    const passIn = document.getElementById("password").value;
+    const users = JSON.parse(localStorage.getItem("users"));
+    const found = users.find(u => u.user === userIn && u.pass === passIn);
+
+    if (found) {
+        sessionStorage.setItem("isLoggedIn", "true");
+        alert("Selamat datang, " + found.nama);
+        checkLoginStatus();
+    } else {
+        document.getElementById("error-msg").innerText = "Login Gagal!";
+    }
+}
+
+// Fitur Tambah Tag Saran
+function addTag() {
+    const input = document.getElementById("tagInput");
+    const display = document.getElementById("tagDisplay");
+    if (input.value !== "") {
+        display.innerHTML += `#${input.value} `;
+        input.value = "";
+    }
+}
+
+// Fitur Feedback
+function submitFeedback(event) {
+    event.preventDefault();
+    alert("Feedback terkirim! Terima kasih.");
+    event.target.reset();
+}
+
+function renderUserTable() {
+    const users = JSON.parse(localStorage.getItem("users"));
+    const list = document.getElementById("user-list");
+    list.innerHTML = "";
+    users.forEach(u => {
+        list.innerHTML += `<tr style="border-bottom: 1px solid #444;">
+            <td style="padding:10px;">${u.nama}</td>
+            <td style="padding:10px;">${u.user}</td>
+        </tr>`;
     });
 }
 
-// --- FUNGSI SUBMIT ULASAN (KIRIM KE DATABASE) ---
-function submitReview(event) {
-    event.preventDefault(); // Mencegah halaman refresh
-    
-    const nama = document.getElementById('inputNama').value;
-    const rating = document.getElementById('inputRating').value;
-    const teks = document.getElementById('inputTeks').value;
-    
-    let formData = new FormData();
-    formData.append('nama', nama);
-    formData.append('rating', rating);
-    formData.append('teks', teks);
-
-    fetch('api_ulasan.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text())
-    .then(hasil => {
-        if(hasil.trim() === "Sukses") {
-            alert("Terima kasih! Ulasan kamu berhasil disimpan.");
-            document.getElementById('formUlasan').reset();
-            muatUlasan(); // Refresh ulasan otomatis
-        } else {
-            alert("Error: " + hasil); // Tampilkan error dari PHP biar kita tahu salahnya di mana
-        }
-    })
-    .catch(error => {
-        alert("Gagal menghubungi server. Pastikan api_ulasan.php ada.");
-    });
+function logout() {
+    sessionStorage.clear();
+    checkLoginStatus();
 }
 
-// Panggil ulasan saat web pertama kali dimuat
-window.onload = muatUlasan;
-    
-   
+function downloadUserList() {
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    let content = "DAFTAR ANGGOTA TERDAFTAR\n==========================\n";
+    users.forEach((u, i) => {
+        content += ${i+1}. Nama: ${u.nama} | NIM: ${u.user}\n;
+    });
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "user.txt";
+    a.click();
+}
+
+function clearData() {
+    if(confirm("Hapus semua data pendaftar?")) {
+        localStorage.removeItem("users");
+        location.reload();
+    }
+}
