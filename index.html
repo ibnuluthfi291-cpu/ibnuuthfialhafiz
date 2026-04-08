@@ -1,219 +1,221 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ppmdh library</title>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
 body {
-    margin:0;
-    font-family: Arial, sans-serif;
-    background-image: url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da");
+    /* Latar belakang perpustakaan yang terang */
+    background: url('https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
     background-size: cover;
-    background-position: center;
-    color:white;
+    color: #ffffff;
 }
 
-.overlay{
-    background-color: rgba(0,0,0,0.7);
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
+/* Overlay agar seluruh halaman pas di layar */
+.overlay {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.2); /* Sedikit terang di luar kotak */
 }
 
-nav{
-    background-color: rgba(0,0,0,0.85);
-    padding:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+/* Navigasi */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(15, 23, 42, 0.9);
+    padding: 15px 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-.nav-left a{
-    color:white;
-    margin-right:20px;
-    text-decoration:none;
-    font-weight:bold;
+.nav-left a, .nav-right a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: 0.3s;
 }
 
-.nav-right a{
-    color:#ffd700;
-    text-decoration:none;
-    font-weight:bold;
+.nav-right a {
+    margin-right: 0;
+    background: #ffd700;
+    color: #0f172a;
+    padding: 8px 20px;
+    border-radius: 5px;
 }
 
-.container{
-    padding:40px;
-    max-width:900px;
-    margin:auto;
-    flex:1;
+.nav-left a:hover {
+    color: #ffd700;
+}
+.nav-right a:hover {
+    background: #e6c200;
 }
 
-.section{
-    display:none;
+/* Kontainer Utama (Glassmorphism) */
+.container {
+    background: rgba(15, 23, 42, 0.85); /* Warna biru gelap transparan */
+    backdrop-filter: blur(10px); /* Efek kaca */
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    flex-grow: 1;
 }
 
-.active{
-    display:block;
+/* Logika Halaman (Sembunyikan / Tampilkan) */
+.section {
+    display: none;
+    animation: fadeIn 0.4s ease-in-out;
 }
 
-h1,h2{
-    text-align:center;
+.section.active {
+    display: block;
 }
 
-footer{
-    background-color: rgba(0,0,0,0.85);
-    padding:30px;
-    text-align:center;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-footer a{
-    display:block;
-    margin:10px;
-    color:#ffd700;
-    text-decoration:none;
+/* Teks dan Heading */
+h1, h2 {
+    color: #ffd700;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.tagline {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+hr {
+    border: 0;
+    height: 1px;
+    background: #334155;
+    margin: 20px 0;
 }
 
-form{
-    max-width:400px;
-    margin:auto;
-    text-align:left;
+/* Katalog & Pencarian */
+.search-box {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.search-box input {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+}
+#bookList {
+    list-style: none;
+}
+#bookList li {
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+#bookList li:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+#bookList li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
 }
 
-form label{
-    display:block;
-    margin-top:15px;
+/* Galeri Kegiatan Literasi */
+.gallery-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    margin-top: 20px;
+}
+.gallery-row-top, .gallery-row-bottom {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.gallery-item {
+    text-align: center;
+}
+.gallery-item img {
+    width: 250px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #ffd700;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+.gallery-item img:hover {
+    transform: scale(1.05);
+}
+.gallery-item p {
+    margin-top: 10px;
+    font-size: 0.9rem;
 }
 
-form input{
-    width:100%;
-    padding:8px;
-    margin-top:5px;
-    border:none;
-    border-radius:4px;
+/* Form Login */
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+}
+form label {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #cbd5e1;
+}
+form input {
+    padding: 12px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+}
+form button {
+    padding: 12px;
+    background: #ffd700;
+    color: #0f172a;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+form button:hover {
+    background: #e6c200;
 }
 
-form button{
-    margin-top:15px;
-    padding:10px;
-    width:100%;
-    background-color:#ffd700;
-    border:none;
-    font-weight:bold;
-    cursor:pointer;
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.9);
+    margin-top: auto;
 }
 
-.option-group{
-    margin-top:10px;
+/* Responsif */
+@media (max-width: 768px) {
+    nav { flex-direction: column; gap: 15px; }
+    .nav-left { display: flex; flex-direction: column; text-align: center; gap: 10px; }
+    .nav-left a { margin-right: 0; }
 }
-</style>
-
-<script>
-function showMenu(menu){
-    document.querySelectorAll('.section').forEach(sec=>{
-        sec.classList.remove('active');
-    });
-    document.getElementById(menu).classList.add('active');
-}
-</script>
-
-</head>
-
-<body>
-<div class="overlay">
-
-<nav>
-<div class="nav-left">
-<a href="#" onclick="showMenu('dashboard')">Dashboard</a>
-<a href="#" onclick="showMenu('katalog')">Katalog</a>
-<a href="#" onclick="showMenu('kegiatan')">Kegiatan Literasi</a>
-</div>
-
-<div class="nav-right">
-<a href="#" onclick="showMenu('login')">Login</a>
-</div>
-</nav>
-
-<div class="container">
-
-<div id="dashboard" class="section active">
-<h1>ppmdh Library</h1>
-<p style="text-align:center;">Selamat datang di perpustakaan ppmdh.</p>
-</div>
-
-<div id="katalog" class="section">
-<h2>Daftar Buku</h2>
-<ul>
-<li>Manajemen Perpustakaan Modern</li>
-<li>Digital Library Concepts</li>
-<li>Literasi Informasi untuk santri ppmdh</li>
-</ul>
-</div>
-
-<div id="kegiatan" class="section">
-<h2>Kegiatan Literasi</h2>
-<ul>
-<li>Program Pojok Literasi</li>
-<li>Sosialisasi Digital library santri ppmdh</li>
-<li>gerakan baca hening</li>
-</ul>
-</div>
-
-<!-- LOGIN SECTION -->
-<div id="login" class="section">
-<h2>Form Login Anggota</h2>
-
-<form>
-<label for="username">Username</label>
-<input type="text" id="username" placeholder="Masukkan username">
-
-<label for="password">Password</label>
-<input type="password" id="password" placeholder="Masukkan password">
-
-<div class="option-group">
-<label>
-<input type="checkbox"> Ingat saya
-</label>
-</div>
-
-<div class="option-group">
-<label>Status Pengguna:</label>
-<label><input type="radio" name="status">santri</label>
-<label><input type="radio" name="status">sekolah</label>
-</div>
-
-<button type="submit">Login</button>
-
-</form>
-</div>
-
-</div>
-
-<!-- FOOTER -->
-<footer>
-
-<h3>About Me</h3>
-<a href="https://www.facebook.com/profile.php?id=61575099244106" target="_blank">
-Kunjungi Profil website kami
-</a>
-
-<h3>My Biodata</h3>
-<a href="https://drive.google.com/file/d/1TxYVMCAwhRlTklV5JX5DPSBxneFD3S0K/view?usp=drive_link" target="_blank">
-Lihat Biodata Lengkap ppmdh library
-</a>
-
-<h3>Video Profile</h3>
-
-<iframe width="400" height="250"
-src="https://youtu.be/-KayoqbVtLQ?si=PM_R0EGQLmsN3zdW"
-title="YouTube video"
-frameborder="0"
-allowfullscreen>
-</iframe>
-
-</footer>
-
-</div>
-</body>
-</html>
