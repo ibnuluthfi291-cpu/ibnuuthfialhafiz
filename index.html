@@ -5,143 +5,308 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OXSLIB SPACE</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
 body {
-    margin:0;
-    font-family: Arial, sans-serif;
+    margin: 0;
+    font-family: 'Outfit', Arial, sans-serif;
     background-image: url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da");
     background-size: cover;
     background-position: center;
-    color:white;
+    background-attachment: fixed;
+    color: white;
 }
 
-.overlay{
-    background-color: rgba(0,0,0,0.7);
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
+.overlay {
+    background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-nav{
+nav {
     background-color: rgba(0,0,0,0.85);
-    padding:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3); /* Garis bawah emas */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.nav-left a{
-    color:white;
-    margin-right:20px;
-    text-decoration:none;
-    font-weight:bold;
+.nav-left {
+    display: flex;
+    gap: 20px;
 }
 
-.nav-left a:hover, .nav-right a:hover{
-    color:#00e6ff;
-    transition:0.3s;
+.nav-left a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding-bottom: 5px;
+    position: relative;
 }
 
-.nav-right a{
-    color:#ffd700;
-    text-decoration:none;
-    font-weight:bold;
+.nav-left a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #ffd700;
+    transition: 0.3s;
 }
 
-.container{
-    padding:40px;
-    max-width:900px;
-    margin:auto;
-    flex:1;
+.nav-left a:hover::after, .nav-left a.active::after {
+    width: 100%;
 }
 
-.section{
-    display:none;
-    opacity:0;
-    transition:0.5s;
+.nav-left a:hover, .nav-left a.active {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
-.section.active{
-    display:block;
-    opacity:1;
+.nav-right a {
+    color: #0f172a;
+    background-color: #ffd700;
+    padding: 8px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-h1,h2{
-    text-align:center;
+.nav-right a:hover {
+    background-color: #ffea00;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
 }
 
-footer{
+.container {
+    padding: 40px;
+    max-width: 1000px; /* Diperlebar sedikit agar muat 3 gambar jejer */
+    margin: 40px auto;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    flex: 1;
+    width: 90%;
+}
+
+.section {
+    display: none;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1, h2 {
+    text-align: center;
+    color: #ffd700;
+    margin-bottom: 25px;
+}
+
+/* =========================================
+   STYLE BARU: GALERI KEGIATAN LITERASI
+   ========================================= */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.gallery-card {
+    background: rgba(30, 41, 59, 0.6);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.gallery-card:hover {
+    transform: translateY(-8px);
+    border-color: #ffd700;
+    box-shadow: 0 10px 20px rgba(255, 215, 0, 0.15);
+}
+
+.gallery-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.gallery-card h3 {
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.gallery-category {
+    font-size: 0.85rem;
+    color: #ffd700;
+    font-weight: 500;
+}
+
+/* ----------------------------------------- */
+
+footer {
     background-color: rgba(0,0,0,0.85);
-    padding:30px;
-    text-align:center;
+    padding: 30px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-footer a{
-    display:block;
-    margin:10px;
-    color:#ffd700;
-    text-decoration:none;
+footer a {
+    display: inline-block;
+    margin: 10px 20px;
+    color: #ffd700;
+    text-decoration: none;
+    transition: 0.3s;
 }
 
-form{
-    max-width:400px;
-    margin:auto;
-    text-align:left;
+footer a:hover {
+    color: white;
+    text-decoration: underline;
 }
 
-form label{
-    display:block;
-    margin-top:15px;
+form {
+    max-width: 400px;
+    margin: auto;
+    text-align: left;
+    background: rgba(0,0,0,0.3);
+    padding: 30px;
+    border-radius: 10px;
 }
 
-form input{
-    width:100%;
-    padding:8px;
-    margin-top:5px;
-    border:none;
-    border-radius:4px;
+form label {
+    display: block;
+    margin-top: 15px;
+    color: #cbd5e1;
 }
 
-form button{
-    margin-top:15px;
-    padding:10px;
-    width:100%;
-    background-color:#ffd700;
-    border:none;
-    font-weight:bold;
-    cursor:pointer;
+form input[type="text"], form input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    background: rgba(15, 23, 42, 0.8);
+    color: white;
+    outline: none;
 }
 
-.option-group{
-    margin-top:10px;
+form input:focus {
+    border-color: #ffd700;
+}
+
+form button {
+    margin-top: 25px;
+    padding: 12px;
+    width: 100%;
+    background-color: #ffd700;
+    color: #0f172a;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+form button:hover {
+    background-color: #ffea00;
+    transform: scale(0.98);
+}
+
+.option-group {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
 
 /* ABOUT US STYLE */
-#about p{
-    text-align:justify;
-    line-height:1.6;
-    margin-bottom:15px;
+#about p {
+    text-align: justify;
+    line-height: 1.8;
+    margin-bottom: 15px;
+    color: #cbd5e1;
 }
 
-#about h3{
-    margin-top:20px;
-    color:#ffd700;
+#about h3 {
+    margin-top: 25px;
+    color: #ffd700;
+    text-align: left;
 }
 
-#about li{
-    margin-bottom:8px;
+#about li {
+    margin-bottom: 10px;
+    color: #cbd5e1;
+    line-height: 1.6;
+}
+
+/* KATALOG BUKU */
+#search {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px 20px;
+    margin: 0 auto 30px auto;
+    display: block;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid #334155;
+    border-radius: 30px;
+    color: white;
+    outline: none;
+}
+
+#search:focus {
+    border-color: #ffd700;
+}
+
+#bookList {
+    list-style: none;
+    padding: 0;
+}
+
+#bookList li {
+    background: rgba(30, 41, 59, 0.5);
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border-left: 4px solid #ffd700;
+    transition: 0.3s;
+}
+
+#bookList li:hover {
+    background: rgba(30, 41, 59, 0.8);
+    transform: translateX(5px);
 }
 
 /* RESPONSIVE */
-@media(max-width:600px){
-    .container{
-        padding:20px;
-    }
-
-    iframe{
-        width:100%;
-        height:200px;
-    }
+@media(max-width: 768px){
+    nav { flex-direction: column; gap: 15px; }
+    .nav-left { flex-wrap: wrap; justify-content: center; }
+    .container { padding: 20px; }
+    iframe { width: 100%; height: 200px; }
 }
 </style>
 
@@ -150,154 +315,33 @@ function showMenu(menu){
     document.querySelectorAll('.section').forEach(sec=>{
         sec.classList.remove('active');
     });
-    document.getElementById(menu).classList.add('active');
+    
+    const target = document.getElementById(menu);
+    if(target) target.classList.add('active');
+
+    // Mengubah warna menu yang sedang aktif
+    document.querySelectorAll('.nav-left a').forEach(link => link.classList.remove('active'));
+    let activeNav = document.getElementById('nav-' + menu);
+    if(activeNav) activeNav.classList.add('active');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function loginUser(event){
     event.preventDefault();
-
     let user = document.getElementById("username").value;
     let pass = document.getElementById("password").value;
 
     if(user === "admin" && pass === "1234"){
         alert("Login berhasil!");
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
         showMenu('dashboard');
     } else {
         alert("Username atau password salah!");
     }
 }
-</script>
 
-</head>
-
-<body>
-<div class="overlay">
-
-<!-- NAVBAR -->
-<nav>
-<div class="nav-left">
-<a href="#" onclick="showMenu('dashboard')">Dashboard</a>
-<a href="#" onclick="showMenu('katalog')">Katalog</a>
-<a href="#" onclick="showMenu('kegiatan')">Kegiatan Literasi</a>
-<a href="#" onclick="showMenu('about')">About Us</a>
-</div>
-
-<div class="nav-right">
-<a href="#" onclick="showMenu('login')">Login</a>
-</div>
-</nav>
-
-<div class="container">
-
-<!-- DASHBOARD -->
-<div id="dashboard" class="section active">
-<h1>OXSLIB SPACE</h1>
-<p style="text-align:center;">Selamat datang di perpustakaan digital modern.</p>
-</div>
-
-<!-- KATALOG -->
-<div id="katalog" class="section">
-<h2>Daftar Buku</h2>
-
-<input type="text" id="search" placeholder="Cari buku..." onkeyup="searchBook()">
-
-<ul id="bookList">
-<li>Manajemen Perpustakaan Modern</li>
-<li>Digital Library Concepts</li>
-<li>Literasi Informasi untuk santri ppmdh</li>
-</ul>
-</div>
-
-<!-- KEGIATAN -->
-<div id="kegiatan" class="section">
-<h2>Kegiatan Literasi</h2>
-<ul>
-<li>Workshop menulis kreatif</li>
-<li>Book to Film Discussion</li>
-<li>Literasi + Teknologi (AI & Digital)</li>
-</ul>
-</div>
-
-<!-- ABOUT US -->
-<div id="about" class="section">
-<h2>About Us</h2>
-
-<p>
-OXSLIB SPACE hadir sebagai ruang literasi digital yang menghubungkan pengetahuan dengan teknologi dalam satu pengalaman yang sederhana dan menyenangkan. Kami percaya bahwa membaca bukan lagi sekadar aktivitas, tetapi sebuah perjalanan untuk membuka wawasan, ide, dan masa depan.
-</p>
-
-<p>
-Dengan pendekatan yang modern dan inklusif, kami membangun perpustakaan yang dekat dengan penggunanya—tempat di mana siapa saja bisa belajar, berkembang, dan menemukan inspirasi tanpa batas.
-</p>
-
-<h3>Visi</h3>
-<p>
-Menjadi ruang literasi digital yang inovatif dan inklusif, yang menginspirasi generasi untuk terus belajar dan berkembang di era teknologi.
-</p>
-
-<h3>Misi</h3>
-<ul>
-<li>Menyediakan akses informasi yang mudah, cepat, dan relevan bagi semua pengguna</li>
-<li>Menghadirkan pengalaman literasi yang interaktif dan berbasis teknologi</li>
-<li>Mendorong budaya membaca melalui kegiatan kreatif dan kolaboratif</li>
-<li>Membangun komunitas belajar yang terbuka, aktif, dan saling terhubung</li>
-<li>Mengembangkan layanan perpustakaan yang adaptif dengan kebutuhan zaman</li>
-</ul>
-</div>
-
-<!-- LOGIN -->
-<div id="login" class="section">
-<h2>Form Login Anggota</h2>
-
-<form onsubmit="loginUser(event)">
-<label>Username</label>
-<input type="text" id="username" placeholder="Masukkan username">
-
-<label>Password</label>
-<input type="password" id="password" placeholder="Masukkan password">
-
-<div class="option-group">
-<label><input type="checkbox"> Ingat saya</label>
-</div>
-
-<div class="option-group">
-<label>Status Pengguna:</label>
-<label><input type="radio" name="status"> santri</label>
-<label><input type="radio" name="status"> sekolah</label>
-</div>
-
-<button type="submit">Login</button>
-</form>
-</div>
-
-</div>
-
-<!-- FOOTER -->
-<footer>
-
-<h3>About Me</h3>
-<a href="https://www.facebook.com/profile.php?id=61575099244106" target="_blank">
-Kunjungi Profil Website
-</a>
-
-<h3>My Biodata</h3>
-<a href="https://drive.google.com/file/d/1TxYVMCAwhRlTklV5JX5DPSBxneFD3S0K/view" target="_blank">
-Lihat Biodata Lengkap
-</a>
-
-<h3>Video Profile</h3>
-
-<iframe 
-src="https://www.youtube.com/embed/G53NecrvU2Y"
-frameborder="0"
-allowfullscreen>
-</iframe>
-
-</footer>
-
-</div>
-
-<script>
 function searchBook(){
     let input = document.getElementById("search").value.toLowerCase();
     let items = document.querySelectorAll("#bookList li");
@@ -311,6 +355,130 @@ function searchBook(){
     });
 }
 </script>
+</head>
 
+<body>
+<div class="overlay">
+
+<nav>
+    <div class="nav-left">
+        <a href="#" id="nav-dashboard" onclick="showMenu('dashboard')" class="active"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="#" id="nav-katalog" onclick="showMenu('katalog')"><i class="fas fa-book"></i> Katalog</a>
+        <a href="#" id="nav-kegiatan" onclick="showMenu('kegiatan')"><i class="fas fa-camera"></i> Kegiatan Literasi</a>
+        <a href="#" id="nav-about" onclick="showMenu('about')"><i class="fas fa-info-circle"></i> About Us</a>
+    </div>
+    <div class="nav-right">
+        <a href="#" onclick="showMenu('login')"><i class="fas fa-sign-in-alt"></i> Login</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div id="dashboard" class="section active">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <i class="fas fa-book-reader" style="font-size: 5rem; color: #ffd700;"></i>
+        </div>
+        <h1>OXSLIB SPACE</h1>
+        <p style="text-align:center; font-size: 1.1rem;">Selamat datang di perpustakaan digital modern.</p>
+    </div>
+
+    <div id="katalog" class="section">
+        <h2><i class="fas fa-list"></i> Daftar Buku</h2>
+        <input type="text" id="search" placeholder="&#xf002; Cari judul buku..." style="font-family: Arial, 'Font Awesome 6 Free'; font-weight: 900;" onkeyup="searchBook()">
+        
+        <ul id="bookList">
+            <li>Manajemen Perpustakaan Modern</li>
+            <li>Digital Library Concepts</li>
+            <li>Literasi Informasi untuk santri ppmdh</li>
+        </ul>
+    </div>
+
+    <div id="kegiatan" class="section">
+        <h2><i class="fas fa-camera-retro"></i> Kegiatan Literasi</h2>
+        <p style="text-align: center; margin-bottom: 30px; color: #cbd5e1;">Berbagai aktivitas inspiratif yang kami jalankan untuk membangun budaya literasi di OXSLIB SPACE.</p>
+        
+        <div class="gallery-grid">
+            
+            <div class="gallery-card">
+                <img src="Workshop menulis kreatif.jpeg" alt="Workshop Menulis Kreatif" onerror="this.src='https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=400'">
+                <h3>Workshop Menulis Kreatif</h3>
+                <p class="gallery-category"><i class="fas fa-pen-nib"></i> Pelatihan & Praktik</p>
+            </div>
+            
+            <div class="gallery-card">
+                <img src="Book to Film Discussion.jpeg" alt="Book to Film Discussion" onerror="this.src='https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=400'">
+                <h3>Book to Film Discussion</h3>
+                <p class="gallery-category"><i class="fas fa-film"></i> Diskusi Interaktif</p>
+            </div>
+            
+            <div class="gallery-card">
+                <img src="Literasi + Teknologi (AI & Digital).jpeg" alt="Literasi dan Teknologi" onerror="this.src='https://images.unsplash.com/photo-1531297172869-c0da52328135?q=80&w=400'">
+                <h3>Literasi + Teknologi (AI)</h3>
+                <p class="gallery-category"><i class="fas fa-robot"></i> Edukasi Masa Depan</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="about" class="section">
+        <h2><i class="fas fa-building"></i> About Us</h2>
+
+        <p><strong>OXSLIB SPACE</strong> hadir sebagai ruang literasi digital yang menghubungkan pengetahuan dengan teknologi dalam satu pengalaman yang sederhana dan menyenangkan. Kami percaya bahwa membaca bukan lagi sekadar aktivitas, tetapi sebuah perjalanan untuk membuka wawasan, ide, dan masa depan.</p>
+
+        <p>Dengan pendekatan yang modern dan inklusif, kami membangun perpustakaan yang dekat dengan penggunanya—tempat di mana siapa saja bisa belajar, berkembang, dan menemukan inspirasi tanpa batas.</p>
+
+        <h3><i class="fas fa-eye"></i> Visi</h3>
+        <p>Menjadi ruang literasi digital yang inovatif dan inklusif, yang menginspirasi generasi untuk terus belajar dan berkembang di era teknologi.</p>
+
+        <h3><i class="fas fa-bullseye"></i> Misi</h3>
+        <ul>
+            <li>Menyediakan akses informasi yang mudah, cepat, dan relevan bagi semua pengguna.</li>
+            <li>Menghadirkan pengalaman literasi yang interaktif dan berbasis teknologi.</li>
+            <li>Mendorong budaya membaca melalui kegiatan kreatif dan kolaboratif.</li>
+            <li>Membangun komunitas belajar yang terbuka, aktif, dan saling terhubung.</li>
+            <li>Mengembangkan layanan perpustakaan yang adaptif dengan kebutuhan zaman.</li>
+        </ul>
+    </div>
+
+    <div id="login" class="section">
+        <h2><i class="fas fa-fingerprint"></i> Form Login Anggota</h2>
+
+        <form onsubmit="loginUser(event)">
+            <label><i class="fas fa-user"></i> Username</label>
+            <input type="text" id="username" placeholder="Masukkan username" required>
+
+            <label><i class="fas fa-lock"></i> Password</label>
+            <input type="password" id="password" placeholder="Masukkan password" required>
+
+            <div class="option-group" style="margin-top: 20px;">
+                <label style="margin: 0;"><input type="checkbox"> Ingat saya</label>
+            </div>
+
+            <div class="option-group">
+                <label style="margin: 0; margin-right: 10px;">Status:</label>
+                <label style="margin: 0; color: white;"><input type="radio" name="status" required> Santri</label>
+                <label style="margin: 0; color: white;"><input type="radio" name="status" required> Sekolah</label>
+            </div>
+
+            <button type="submit"><i class="fas fa-sign-in-alt"></i> Login Sekarang</button>
+        </form>
+    </div>
+
+</div>
+
+<footer>
+    <h3 style="color: #ffd700; margin-bottom: 10px;">About Me</h3>
+    <a href="https://www.facebook.com/profile.php?id=61575099244106" target="_blank"><i class="fab fa-facebook"></i> Kunjungi Profil Website</a>
+
+    <h3 style="color: #ffd700; margin-top: 20px; margin-bottom: 10px;">My Biodata</h3>
+    <a href="https://drive.google.com/file/d/1TxYVMCAwhRlTklV5JX5DPSBxneFD3S0K/view" target="_blank"><i class="fas fa-file-alt"></i> Lihat Biodata Lengkap</a>
+
+    <h3 style="color: #ffd700; margin-top: 30px; margin-bottom: 15px;">Video Profile</h3>
+    <div style="max-width: 600px; margin: 0 auto; border-radius: 10px; overflow: hidden; border: 2px solid rgba(255, 215, 0, 0.3);">
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/G53NecrvU2Y" frameborder="0" allowfullscreen></iframe>
+    </div>
+</footer>
+
+</div>
 </body>
 </html>
