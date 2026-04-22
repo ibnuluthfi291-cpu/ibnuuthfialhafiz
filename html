@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OXSLIB SPACE</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:'Outfit',sans-serif;
+    background:#0f172a;
+    color:white;
+}
+nav{
+    background:black;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+}
+nav a{
+    color:white;
+    margin-right:15px;
+    cursor:pointer;
+}
+.container{
+    padding:30px;
+}
+.section{display:none;}
+.section.active{display:block;}
+.card{
+    background:#1e293b;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+input,select,button{
+    width:100%;
+    padding:10px;
+    margin:5px 0;
+}
+button{
+    background:gold;
+    border:none;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+td,th{
+    border:1px solid #333;
+    padding:10px;
+}
+</style>
+
+<script>
+function showMenu(id){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+/* LOOP */
+function generateLoop(){
+    let box=document.getElementById("loopBox");
+    box.innerHTML="";
+    for(let i=1;i<=1000;i++){
+        box.innerHTML += i + ". Ini adalah hari ke-"+i+" belajar PHP<br>";
+    }
+}
+
+/* KALKULATOR */
+function hitung(){
+    let a=parseFloat(document.getElementById("a1").value);
+    let b=parseFloat(document.getElementById("a2").value);
+    let op=document.getElementById("op").value;
+    let hasil;
+
+    if(op=="+") hasil=a+b;
+    if(op=="-") hasil=a-b;
+    if(op=="*") hasil=a*b;
+    if(op=="/") hasil=b!=0 ? a/b : "Error";
+
+    document.getElementById("hasil").innerHTML="Hasil: "+hasil;
+}
+
+/* LOGIN */
+function login(){
+    let u=document.getElementById("user").value;
+    let p=document.getElementById("pass").value;
+
+    if(u=="" || p==""){
+        alert("Input tidak lengkap");
+    }else if(u=="admin" && p=="12345"){
+        alert("Login sukses");
+    }else{
+        alert("Login gagal");
+    }
+}
+
+/* CRUD */
+let data=[];
+
+function loadData(){
+    let d=localStorage.getItem("buku");
+    data=d?JSON.parse(d):[];
+    render();
+}
+
+function tambah(){
+    let j=document.getElementById("judul").value;
+    let p=document.getElementById("penulis").value;
+    let k=document.getElementById("kategori").value;
+
+    data.push({id:Date.now(),judul:j,penulis:p,kategori:k});
+    localStorage.setItem("buku",JSON.stringify(data));
+    render();
+}
+
+function hapus(id){
+    data=data.filter(x=>x.id!=id);
+    localStorage.setItem("buku",JSON.stringify(data));
+    render();
+}
+
+function render(){
+    let html="";
+    data.forEach(d=>{
+        html+=`
+        <tr>
+            <td>${d.judul}</td>
+            <td>${d.penulis}</td>
+            <td>${d.kategori}</td>
+            <td><button onclick="hapus(${d.id})">Hapus</button></td>
+        </tr>`;
+    });
+    document.getElementById("tabel").innerHTML=html;
+}
+
+window.onload=loadData;
+</script>
+</head>
+
+<body>
+
+<nav>
+<div>
+<a onclick="showMenu('home')">Dashboard</a>
+<a onclick="showMenu('katalog')">Katalog</a>
+<a onclick="showMenu('tugas')">Tugas PHP</a>
+</div>
+</nav>
+
+<div class="container">
+
+<!-- DASHBOARD -->
+<div id="home" class="section active">
+<h1>OXSLIB SPACE</h1>
+<p>Perpustakaan Digital Modern</p>
+</div>
+
+<!-- KATALOG -->
+<div id="katalog" class="section">
+<h2>Daftar Buku</h2>
+<div class="card">
+<p>HTML CSS JS</p>
+<p>Pemrograman Web</p>
+<p>PHP & HTML</p>
+</div>
+</div>
+
+<!-- TUGAS -->
+<div id="tugas" class="section">
+
+<div class="card">
+<h3>1. Loop 1-1000</h3>
+<button onclick="generateLoop()">Tampilkan</button>
+<div id="loopBox" style="max-height:200px;overflow:auto;"></div>
+</div>
+
+<div class="card">
+<h3>2. Kalkulator</h3>
+<input type="number" id="a1">
+<input type="number" id="a2">
+<select id="op">
+<option value="+">+</option>
+<option value="-">-</option>
+<option value="*">*</option>
+<option value="/">/</option>
+</select>
+<button onclick="hitung()">Hitung</button>
+<div id="hasil"></div>
+</div>
+
+<div class="card">
+<h3>3. Login</h3>
+<input type="text" id="user">
+<input type="password" id="pass">
+<button onclick="login()">Login</button>
+</div>
+
+<div class="card">
+<h3>4. CRUD Buku</h3>
+<input type="text" id="judul" placeholder="Judul">
+<input type="text" id="penulis" placeholder="Penulis">
+<input type="text" id="kategori" placeholder="Kategori">
+<button onclick="tambah()">Tambah</button>
+
+<table>
+<tr><th>Judul</th><th>Penulis</th><th>Kategori</th><th>Aksi</th></tr>
+<tbody id="tabel"></tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
