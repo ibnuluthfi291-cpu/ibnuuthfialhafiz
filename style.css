@@ -1,0 +1,27 @@
+body {
+margin:0;
+font-family:sans-serif;
+background:#0f172a;
+color:white;
+}
+
+nav {
+background:#020617;
+padding:15px;
+}
+
+nav a {
+color:white;
+margin-right:15px;
+text-decoration:none;
+}
+
+.container {
+padding:30px;
+}
+
+.card {
+background:#1e293b;
+padding:20px;
+border-radius:10px;
+}
