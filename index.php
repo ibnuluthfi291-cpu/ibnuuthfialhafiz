@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-/* ============================
-   DATA SESSION (DATABASE SEMENTARA)
-============================ */
+/* =========================
+   DATA DEFAULT
+========================= */
 if (!isset($_SESSION['data_buku'])) {
     $_SESSION['data_buku'] = [
         ['id'=>1,'judul'=>'Some Kind of Wonderful','penulis'=>'Winna Efendi','kategori'=>'Fiksi'],
@@ -11,29 +11,32 @@ if (!isset($_SESSION['data_buku'])) {
     ];
 }
 
-/* ============================
-   TAMBAH DATA
-============================ */
-if(isset($_POST['tambah_buku'])){
-    $id = count($_SESSION['data_buku']) + 1;
+/* =========================
+   CRUD PHP
+========================= */
+if (isset($_POST['tambah_buku'])) {
+    $id = end($_SESSION['data_buku'])['id'] + 1;
     $_SESSION['data_buku'][] = [
         'id'=>$id,
-        'judul'=>$_POST['judul'],
-        'penulis'=>$_POST['penulis'],
-        'kategori'=>$_POST['kategori']
+        'judul'=>$_POST['judul_baru'],
+        'penulis'=>$_POST['penulis_baru'],
+        'kategori'=>$_POST['kategori_baru']
     ];
 }
 
-/* ============================
-   HAPUS DATA
-============================ */
-if(isset($_POST['hapus'])){
-    foreach($_SESSION['data_buku'] as $key=>$b){
-        if($b['id'] == $_POST['id']){
-            unset($_SESSION['data_buku'][$key]);
+if (isset($_POST['hapus_buku'])) {
+    foreach ($_SESSION['data_buku'] as $k=>$v) {
+        if ($v['id'] == $_POST['id_hapus']) {
+            unset($_SESSION['data_buku'][$k]);
         }
     }
+    $_SESSION['data_buku'] = array_values($_SESSION['data_buku']);
 }
+
+/* =========================
+   PAGE ROUTER
+========================= */
+$page = $_GET['page'] ?? 'home';
 ?>
 
 <!DOCTYPE html>
@@ -42,193 +45,184 @@ if(isset($_POST['hapus'])){
 <meta charset="UTF-8">
 <title>OXSLIB SPACE</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+
 <style>
-body{
-    font-family: Arial;
+body {
+    margin:0;
+    font-family:'Outfit',sans-serif;
     background:#0f172a;
     color:white;
-    margin:0;
 }
 
 /* NAVBAR */
-nav{
-    background:black;
-    padding:15px;
+nav {
+    display:flex;
+    justify-content:space-between;
+    padding:15px 30px;
+    background:#020617;
 }
-nav a{
+
+nav a {
     color:white;
-    margin-right:15px;
-    cursor:pointer;
     text-decoration:none;
+    margin-right:15px;
 }
 
-/* SECTION */
-.section{
-    display:none;
-    padding:20px;
-}
-.active{
-    display:block;
+nav a:hover { color:gold; }
+
+/* CONTAINER */
+.container {
+    padding:30px;
 }
 
-/* BOX */
-.box{
+/* CARD */
+.card {
     background:#1e293b;
     padding:20px;
-    margin:20px 0;
     border-radius:10px;
+    margin-bottom:20px;
 }
 
 /* TABLE */
-table{
+table {
     width:100%;
     border-collapse:collapse;
 }
-td,th{
-    border:1px solid #444;
+th,td {
     padding:10px;
+    border:1px solid #334155;
+}
+
+/* BUTTON */
+button {
+    padding:10px;
+    border:none;
+    background:gold;
+    cursor:pointer;
 }
 </style>
-
-<script>
-function showMenu(menu){
-    document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
-    document.getElementById(menu).classList.add('active');
-}
-</script>
-
 </head>
 
 <body>
 
 <!-- NAVBAR -->
 <nav>
-    <a onclick="showMenu('home')">Home</a>
-    <a onclick="showMenu('katalog')">Katalog</a>
-    <a onclick="showMenu('tugas')">Tugas PHP</a>
+    <div>
+        <a href="?page=home">Home</a>
+        <a href="?page=katalog">Katalog</a>
+        <a href="?page=php">Tugas PHP</a>
+    </div>
 </nav>
 
-<!-- HOME -->
-<div id="home" class="section active">
-    <h1>OXSLIB SPACE</h1>
-    <p>Website perpustakaan digital</p>
-</div>
+<div class="container">
 
-<!-- KATALOG -->
-<div id="katalog" class="section">
-    <h2>Daftar Buku</h2>
-    <ul>
-        <li>HTML CSS JS</li>
-        <li>Pemrograman Web</li>
-        <li>PHP Dasar</li>
-    </ul>
-</div>
+<?php if($page=='home'): ?>
 
-<!-- ============================
-     TAB TUGAS PHP
-============================ -->
-<div id="tugas" class="section">
+    <div class="card">
+        <h1>📚 OXSLIB SPACE</h1>
+        <p>Website perpustakaan digital modern</p>
+    </div>
 
-<!-- 1. LOOP -->
-<div class="box">
-<h3>1. Perulangan 1 - 100</h3>
-<?php
-for($i=1;$i<=100;$i++){
-    echo "$i. Ini hari ke-$i belajar PHP <br>";
-}
-?>
-</div>
+<?php elseif($page=='katalog'): ?>
 
-<!-- 2. KALKULATOR -->
-<div class="box">
-<h3>2. Kalkulator</h3>
-<form method="POST">
-    <input type="number" name="a" required>
-    <input type="number" name="b" required>
-    <select name="op">
-        <option value="+">+</option>
-        <option value="-">-</option>
-        <option value="*">*</option>
-        <option value="/">/</option>
-    </select>
-    <button name="hitung">Hitung</button>
-</form>
+    <div class="card">
+        <h2>📖 Katalog Buku</h2>
+        <ul>
+            <li>HTML CSS JavaScript</li>
+            <li>Pemrograman Web</li>
+            <li>PHP & HTML</li>
+        </ul>
+    </div>
 
-<?php
-if(isset($_POST['hitung'])){
-    $a=$_POST['a'];
-    $b=$_POST['b'];
-    $op=$_POST['op'];
+<?php elseif($page=='php'): ?>
 
-    if($op=='+') $h=$a+$b;
-    elseif($op=='-') $h=$a-$b;
-    elseif($op=='*') $h=$a*$b;
-    elseif($op=='/') $h=$b!=0?$a/$b:"Error";
+    <div class="card">
+        <h2>🔥 Tugas PHP</h2>
 
-    echo "<p>Hasil: $h</p>";
-}
-?>
-</div>
+        <!-- LOOP -->
+        <h3>Perulangan</h3>
+        <?php
+        for($i=1;$i<=10;$i++){
+            echo "$i. Belajar PHP<br>";
+        }
+        ?>
 
-<!-- 3. LOGIN -->
-<div class="box">
-<h3>3. Login</h3>
-<form method="POST">
-    <input type="text" name="user">
-    <input type="password" name="pass">
-    <button name="login">Login</button>
-</form>
+        <!-- KALKULATOR -->
+        <h3>Kalkulator</h3>
+        <form method="POST">
+            <input type="number" name="a" required>
+            <input type="number" name="b" required>
+            <select name="op">
+                <option value="+">+</option>
+                <option value="-">-</option>
+            </select>
+            <button name="hitung">Hitung</button>
+        </form>
 
-<?php
-if(isset($_POST['login'])){
-    $u=$_POST['user'];
-    $p=$_POST['pass'];
+        <?php
+        if(isset($_POST['hitung'])){
+            $a=$_POST['a'];
+            $b=$_POST['b'];
+            $op=$_POST['op'];
 
-    if(empty($u)||empty($p)){
-        echo "Input tidak lengkap";
-    }elseif($u=="admin" && $p=="12345"){
-        echo "Login sukses";
-    }else{
-        echo "Login gagal";
-    }
-}
-?>
-</div>
+            $hasil = ($op=='+') ? $a+$b : $a-$b;
+            echo "<p>Hasil: $hasil</p>";
+        }
+        ?>
 
-<!-- 4. CRUD -->
-<div class="box">
-<h3>4. CRUD Data Buku</h3>
+        <!-- LOGIN -->
+        <h3>Login</h3>
+        <form method="POST">
+            <input type="text" name="u">
+            <input type="password" name="p">
+            <button name="login">Login</button>
+        </form>
 
-<table>
-<tr>
-<th>ID</th><th>Judul</th><th>Penulis</th><th>Kategori</th><th>Aksi</th>
-</tr>
+        <?php
+        if(isset($_POST['login'])){
+            if($_POST['u']=="admin" && $_POST['p']=="12345"){
+                echo "Login sukses";
+            } else {
+                echo "Login gagal";
+            }
+        }
+        ?>
 
-<?php foreach($_SESSION['data_buku'] as $b){ ?>
-<tr>
-<td><?= $b['id'] ?></td>
-<td><?= $b['judul'] ?></td>
-<td><?= $b['penulis'] ?></td>
-<td><?= $b['kategori'] ?></td>
-<td>
-<form method="POST">
-<input type="hidden" name="id" value="<?= $b['id'] ?>">
-<button name="hapus">Hapus</button>
-</form>
-</td>
-</tr>
-<?php } ?>
-</table>
+        <!-- TABEL -->
+        <h3>Database Buku</h3>
+        <table>
+            <tr>
+                <th>ID</th><th>Judul</th><th>Penulis</th><th>Aksi</th>
+            </tr>
 
-<h4>Tambah Data</h4>
-<form method="POST">
-<input type="text" name="judul" placeholder="Judul" required>
-<input type="text" name="penulis" placeholder="Penulis" required>
-<input type="text" name="kategori" placeholder="Kategori" required>
-<button name="tambah_buku">Tambah</button>
-</form>
+            <?php foreach($_SESSION['data_buku'] as $b): ?>
+            <tr>
+                <td><?= $b['id'] ?></td>
+                <td><?= $b['judul'] ?></td>
+                <td><?= $b['penulis'] ?></td>
+                <td>
+                    <form method="POST">
+                        <input type="hidden" name="id_hapus" value="<?= $b['id'] ?>">
+                        <button name="hapus_buku">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
 
-</div>
+        <!-- TAMBAH -->
+        <h4>Tambah Buku</h4>
+        <form method="POST">
+            <input type="text" name="judul_baru" placeholder="Judul">
+            <input type="text" name="penulis_baru" placeholder="Penulis">
+            <input type="text" name="kategori_baru" placeholder="Kategori">
+            <button name="tambah_buku">Tambah</button>
+        </form>
+
+    </div>
+
+<?php endif; ?>
 
 </div>
 
