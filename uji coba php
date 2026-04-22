@@ -1,8 +1,8 @@
 <?php
-// ================== KONEKSI DATABASE ==================
-$conn = mysqli_connect("localhost","root","","db_mahasiswa");
+// KONEKSI DATABASE
+$conn = mysqli_connect("localhost","root","","db_tugas");
 
-// ================== KALKULATOR ==================
+// KALKULATOR
 $hasil = "";
 if(isset($_POST['hitung'])){
     $a = $_POST['a'];
@@ -15,7 +15,7 @@ if(isset($_POST['hitung'])){
     elseif($op == "/") $hasil = ($b != 0) ? $a / $b : "Tidak bisa dibagi nol";
 }
 
-// ================== LOGIN ==================
+// LOGIN
 $pesan = "";
 if(isset($_POST['login'])){
     $user = $_POST['user'];
@@ -30,13 +30,13 @@ if(isset($_POST['login'])){
     }
 }
 
-// ================== TAMBAH DATA ==================
+// TAMBAH DATA
 if(isset($_POST['tambah'])){
     mysqli_query($conn,"INSERT INTO mahasiswa VALUES('', '$_POST[nama]', '$_POST[nim]', '$_POST[jurusan]')");
     header("Location: index.php");
 }
 
-// ================== HAPUS DATA ==================
+// HAPUS DATA
 if(isset($_GET['hapus'])){
     mysqli_query($conn,"DELETE FROM mahasiswa WHERE id=$_GET[hapus]");
     header("Location: index.php");
@@ -44,174 +44,96 @@ if(isset($_GET['hapus'])){
 ?>
 
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OXSLIB SPACE</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<style>
-/* ====== STYLE ASLI KAMU ====== */
-body {
-    margin: 0;
-    font-family: 'Outfit', Arial;
-    background: black;
-    color: white;
-}
-
-nav {
-    background: #111;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.nav-left a {
-    margin: 10px;
-    color: white;
-    text-decoration: none;
-}
-
-.container {
-    padding: 20px;
-}
-
-.section { display:none; }
-.section.active { display:block; }
-
-/* ===== TAMBAHAN TUGAS ===== */
-.subtab { display:none; margin-top:20px; }
-.subtab.active { display:block; }
-
-button {
-    padding:8px;
-    margin:5px;
-}
-
-table, th, td {
-    border:1px solid white;
-    border-collapse: collapse;
-    padding:5px;
-}
-</style>
-
-<script>
-function showMenu(menu){
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    document.getElementById(menu).classList.add('active');
-}
-
-function openSub(id){
-    document.querySelectorAll('.subtab').forEach(x=>x.style.display='none');
-    document.getElementById(id).style.display='block';
-}
-</script>
+    <title>Tugas PHP</title>
+    <style>
+        body { font-family: Arial; background:#f0f0f0; }
+        .box { background:white; padding:20px; margin:20px; border-radius:8px; }
+        button { padding:8px; }
+        input, select { padding:6px; margin:5px; }
+        table, th, td {
+            border:1px solid black;
+            border-collapse:collapse;
+            padding:5px;
+        }
+    </style>
 </head>
 
 <body>
 
-<nav>
-<div class="nav-left">
-    <a href="#" onclick="showMenu('dashboard')">Dashboard</a>
-    <a href="#" onclick="showMenu('tugas')">Tugas</a>
-</div>
-</nav>
-
-<div class="container">
-
-<!-- DASHBOARD -->
-<div id="dashboard" class="section active">
-    <h1>OXSLIB SPACE</h1>
-    <p>Selamat datang</p>
+<div class="box">
+<h2>1. List Hari 1 - 1000</h2>
+<ol style="height:200px; overflow:auto;">
+<?php for($i=1;$i<=1000;$i++){ ?>
+<li>Ini adalah hari ke-<?= $i ?> belajar PHP</li>
+<?php } ?>
+</ol>
 </div>
 
-<!-- ================= TUGAS ================= -->
-<div id="tugas" class="section">
-<h2>Tugas PHP</h2>
+<div class="box">
+<h2>2. Kalkulator</h2>
+<form method="POST">
+<input type="number" name="a" required placeholder="Angka 1">
+<input type="number" name="b" required placeholder="Angka 2">
 
-<button onclick="openSub('t1')">Tugas 1</button>
-<button onclick="openSub('t2')">Tugas 2</button>
-<button onclick="openSub('t3')">Tugas 3</button>
-<button onclick="openSub('t4')">Tugas 4</button>
+<select name="op">
+<option value="+">+</option>
+<option value="-">-</option>
+<option value="*">*</option>
+<option value="/">/</option>
+</select>
 
-<!-- TUGAS 1 -->
-<div id="t1" class="subtab active">
-    <h3>Loop 1-1000</h3>
-    <ol style="height:200px; overflow:auto;">
-    <?php for($i=1;$i<=1000;$i++){ ?>
-        <li>Hari ke-<?= $i ?></li>
-    <?php } ?>
-    </ol>
+<button name="hitung">Hitung</button>
+</form>
+
+<h3>Hasil: <?= $hasil ?></h3>
 </div>
 
-<!-- TUGAS 2 -->
-<div id="t2" class="subtab">
-    <h3>Kalkulator</h3>
-    <form method="POST">
-        <input type="number" name="a" required>
-        <input type="number" name="b" required>
-        <select name="op">
-            <option value="+">+</option>
-            <option value="-">-</option>
-            <option value="*">*</option>
-            <option value="/">/</option>
-        </select>
-        <button name="hitung">Hitung</button>
-    </form>
-    <p>Hasil: <?= $hasil ?></p>
+<div class="box">
+<h2>3. Login</h2>
+<form method="POST">
+<input type="text" name="user" placeholder="Username">
+<input type="password" name="pass" placeholder="Password">
+<button name="login">Login</button>
+</form>
+
+<h3><?= $pesan ?></h3>
 </div>
 
-<!-- TUGAS 3 -->
-<div id="t3" class="subtab">
-    <h3>Login</h3>
-    <form method="POST">
-        <input type="text" name="user" placeholder="Username">
-        <input type="password" name="pass" placeholder="Password">
-        <button name="login">Login</button>
-    </form>
-    <p><?= $pesan ?></p>
-</div>
+<div class="box">
+<h2>4. CRUD Database</h2>
 
-<!-- TUGAS 4 -->
-<div id="t4" class="subtab">
-    <h3>CRUD</h3>
+<form method="POST">
+<input type="text" name="nama" placeholder="Nama" required>
+<input type="text" name="nim" placeholder="NIM" required>
+<input type="text" name="jurusan" placeholder="Jurusan" required>
+<button name="tambah">Tambah</button>
+</form>
 
-    <form method="POST">
-        <input type="text" name="nama" placeholder="Nama" required>
-        <input type="text" name="nim" placeholder="NIM" required>
-        <input type="text" name="jurusan" placeholder="Jurusan" required>
-        <button name="tambah">Tambah</button>
-    </form>
+<table>
+<tr>
+<th>ID</th>
+<th>Nama</th>
+<th>NIM</th>
+<th>Jurusan</th>
+<th>Aksi</th>
+</tr>
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Nama</th>
-            <th>NIM</th>
-            <th>Jurusan</th>
-            <th>Aksi</th>
-        </tr>
+<?php
+$data = mysqli_query($conn,"SELECT * FROM mahasiswa");
+while($d = mysqli_fetch_array($data)){
+?>
+<tr>
+<td><?= $d['id'] ?></td>
+<td><?= $d['nama'] ?></td>
+<td><?= $d['nim'] ?></td>
+<td><?= $d['jurusan'] ?></td>
+<td><a href="?hapus=<?= $d['id'] ?>">Hapus</a></td>
+</tr>
+<?php } ?>
 
-        <?php
-        $data = mysqli_query($conn,"SELECT * FROM mahasiswa");
-        while($d = mysqli_fetch_array($data)){
-        ?>
-        <tr>
-            <td><?= $d['id'] ?></td>
-            <td><?= $d['nama'] ?></td>
-            <td><?= $d['nim'] ?></td>
-            <td><?= $d['jurusan'] ?></td>
-            <td><a href="?hapus=<?= $d['id'] ?>">Hapus</a></td>
-        </tr>
-        <?php } ?>
-    </table>
-</div>
-
-</div>
-
+</table>
 </div>
 
 </body>
